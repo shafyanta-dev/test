@@ -1,0 +1,56 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'com.google.dagger.hilt.android'
+    id 'kotlin-kapt'
+}
+
+apply from: '../shared.gradle'
+
+android {
+    compileSdk 32
+
+    defaultConfig {
+        minSdk 23
+        targetSdk 32
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        debug{
+            minifyEnabled false
+            buildConfigField("String", "BASE_URL", '"https://reqres.in"')
+            //buildConfigField("String", "BASE_URL", '"https://staging-api.konekind.com"')
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        staging {
+            minifyEnabled false
+            buildConfigField("String", "BASE_URL", '"https://reqres.in"')
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            //signingConfig signingConfigs.release
+        }
+        release {
+            minifyEnabled false
+            buildConfigField("String", "BASE_URL", '"https://reqres.in"')
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            //signingConfig signingConfigs.release
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+    debugImplementation 'com.github.chuckerteam.chucker:library:3.5.2'
+    releaseImplementation 'com.github.chuckerteam.chucker:library-no-op:3.5.2'
+    stagingImplementation 'com.github.chuckerteam.chucker:library-no-op:3.5.2'
+
+}
